@@ -50,19 +50,23 @@ class _MyHomePageState extends State<MyHomePage> {
       subtitle: Text(_items[index].subtitle),
       trailing: IconButton(
         icon: Icon(Icons.radio_button_unchecked),
-        onPressed: () {
-          setState(() {
-            _items.removeAt(index);
-          });
+        onPressed: (){
+        _removeItem( index)
         },
       ),
     );
   }
 
-  void _addItem() {
+  void _addItem(String id, String title, String subtitle) {
     setState(() {
-          _items.add(CustomItem(title: '${_items.length}. Test'), );
+          _items.add(CustomItem(id: id, title: title, subtitle: subtitle), );
         });
+  }
+  
+ void  _removeItem(int index){
+  setState(() {
+            _items.removeAt(index);
+          });
   }
 
   @override
@@ -83,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
         icon: const Icon(Icons.add),
         label: const Text('Add a task'),
         onPressed: () {
-
+     _addItem('${_items.length}', 'Test', 'Sub Title');
           // _insert();
           // showModalBottomSheet<void>(
           //     context: context,
