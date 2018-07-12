@@ -50,6 +50,8 @@ class _MyHomePageState extends State<MyHomePage> {
       animation: animation,
       item: _list[index],
       selected: _selectedItem == _list[index],
+      title: Text('This is the Title'),
+      subtitle: Text('This is the Subtitle'),
       onTap: () {
         setState(() {
           _selectedItem = _selectedItem == _list[index] ? null : _list[index];
@@ -79,21 +81,21 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   // Insert the "next item" into the list model.
-  void _insert(String label) {
-    final int index =
-        _selectedItem == null ? _list.length : _list.indexOf(_selectedItem);
-    _list.insert(index, _nextItem++);
+  void _insert() {
+    // final int index =
+    // _selectedItem == null ? _list.length : _list.indexOf(_selectedItem);
+    _list.insert(_list.length == null ? 0 : _list.length, _list.length + 1);
   }
 
   // Remove the selected item from the list model.
-  void _remove() {
-    if (_selectedItem != null) {
-      _list.removeAt(_list.indexOf(_selectedItem));
-      setState(() {
-        _selectedItem = null;
-      });
-    }
-  }
+  // void _remove() {
+  //   if (_selectedItem != null) {
+  //     _list.removeAt(_list.indexOf(_selectedItem));
+  //     setState(() {
+  //       _selectedItem = null;
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -114,27 +116,28 @@ class _MyHomePageState extends State<MyHomePage> {
         icon: const Icon(Icons.add),
         label: const Text('Add a task'),
         onPressed: () {
-          showModalBottomSheet<void>(
-              context: context,
-              builder: (BuildContext context) {
-                return new Container(
-                    child: new Padding(
-                  padding: const EdgeInsets.all(32.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      NativeButton(
-                        child: Text('Save'),
-                        buttonColor: Colors.blue,
-                        onPressed: () {
-                          Navigator.pop(context);
-                          _insert('Test');
-                        },
-                      ),
-                    ],
-                  ),
-                ));
-              });
+          _insert();
+          // showModalBottomSheet<void>(
+          //     context: context,
+          //     builder: (BuildContext context) {
+          //       return new Container(
+          //           child: new Padding(
+          //         padding: const EdgeInsets.all(32.0),
+          //         child: Column(
+          //           mainAxisSize: MainAxisSize.min,
+          //           children: <Widget>[
+          //             NativeButton(
+          //               child: Text('Save'),
+          //               buttonColor: Colors.blue,
+          //               onPressed: () {
+          //                 Navigator.pop(context);
+          //                 _insert('Test');
+          //               },
+          //             ),
+          //           ],
+          //         ),
+          //       ));
+          //     });
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -218,6 +221,8 @@ class CardItem extends StatelessWidget {
       this.onTap,
       @required this.item,
       this.onDelete,
+      this.subtitle,
+      this.title,
       this.selected: false})
       : assert(animation != null),
         assert(item != null && item >= 0),
@@ -230,6 +235,8 @@ class CardItem extends StatelessWidget {
 
   final int item;
   final bool selected;
+  final Widget title;
+  final Widget subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -249,15 +256,18 @@ class CardItem extends StatelessWidget {
             child: Card(
               // color: Colors.primaries[item % Colors.primaries.length],
               child: ListTile(
-                leading: Icon(
-                  Icons.info,
-                  color: Colors.primaries[item % Colors.primaries.length],
+                leading: Text(
+                  '$item',
+                  style: TextStyle(
+                      color: Colors.primaries[item % Colors.primaries.length]),
                 ),
-                title: Text(
-                  'Item $item',
-                ),
+                title: title,
+                subtitle: subtitle,
                 trailing: IconButton(
-                  icon: Icon(Icons.delete),
+                  icon: Icon(
+                    Icons.radio_button_unchecked,
+                    size: 30.0,
+                  ),
                   onPressed: onDelete,
                 ),
               ),
