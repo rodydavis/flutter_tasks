@@ -43,10 +43,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _buildItem(BuildContext context, int index) {
     return ListTile(
-      leading: Icon(Icons.info),
       title: Text(_items[index].title),
       subtitle: Text(_items[index].subtitle),
-      trailing: IconButton(
+      leading: IconButton(
         icon: Icon(Icons.radio_button_unchecked),
         onPressed: () {
           _removeItem(index);
