@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       theme: new ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: new MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -84,51 +84,30 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton.extended(
         elevation: 4.0,
         icon: const Icon(Icons.add),
-        label: const Text('Add a task'),
+        label: const Text('Add a new task'),
         onPressed: () {
           _addItem('${_items.length}', 'Test', 'Sub Title');
-          // _insert();
-          // showModalBottomSheet<void>(
-          //     context: context,
-          //     builder: (BuildContext context) {
-          //       return new Container(
-          //           child: new Padding(
-          //         padding: const EdgeInsets.all(32.0),
-          //         child: Column(
-          //           mainAxisSize: MainAxisSize.min,
-          //           children: <Widget>[
-          //             NativeButton(
-          //               child: Text('Save'),
-          //               buttonColor: Colors.blue,
-          //               onPressed: () {
-          //                 Navigator.pop(context);
-          //                 _insert('Test');
-          //               },
-          //             ),
-          //           ],
-          //         ),
-          //       ));
-          //     });
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
-        hasNotch: false,
-        child: new Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.menu),
-              onPressed: () {},
+          hasNotch: false,
+          child: SafeArea(
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.menu),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(Icons.more_horiz),
+                  onPressed: () {},
+                ),
+              ],
             ),
-            IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {},
-            ),
-          ],
-        ),
-      ),
+          )),
     );
   }
 }
