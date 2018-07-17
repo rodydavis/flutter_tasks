@@ -14,7 +14,14 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => new _MyHomePageState();
 }
 
+enum AppBarBehavior { normal, pinned, floating, snapping }
+
 class _MyHomePageState extends State<MyHomePage> {
+  static final GlobalKey<ScaffoldState> _scaffoldKey =
+      new GlobalKey<ScaffoldState>();
+  final double _appBarHeight = 75.0;
+  AppBarBehavior _appBarBehavior = AppBarBehavior.snapping;
+
   @override
   void initState() {
     super.initState();
@@ -53,14 +60,42 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: AppBar(
-        title: const Text('Tasky'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(0.0),
-        child: ListView.builder(
-          itemBuilder: _buildItem,
-          itemCount: _items.length == null ? 0 : _items.length,
+      key: _scaffoldKey,
+      body: Container(
+        color: Colors.white,
+        child: CustomScrollView(
+          slivers: <Widget>[
+            new SliverAppBar(
+              brightness: Brightness.light,
+              expandedHeight: _appBarHeight,
+              pinned: _appBarBehavior == AppBarBehavior.pinned,
+              floating: _appBarBehavior == AppBarBehavior.floating ||
+                  _appBarBehavior == AppBarBehavior.snapping,
+              snap: _appBarBehavior == AppBarBehavior.snapping,
+              title: Padding(
+                padding: EdgeInsets.all(15.0),
+                child: Text(
+                  'My Tasks',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 35.0,
+                  ),
+                ),
+              ),
+              titleSpacing: 20.0,
+              centerTitle: false,
+              elevation: 6.0,
+              backgroundColor: Colors.white,
+            ),
+            new SliverList(
+              delegate: new SliverChildBuilderDelegate(
+                (BuildContext context, int index) {
+                  return _buildItem(context, index);
+                },
+                childCount: _items.length == null ? 0 : _items.length,
+              ),
+            ),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
